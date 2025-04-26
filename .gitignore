@@ -1,3 +1,4 @@
 /.env
 /selfbot
 /cogs/__pycache__
+/savedata.db

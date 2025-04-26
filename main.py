@@ -1,11 +1,18 @@
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import sqlite3
 
 import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix=os.getenv("PREFIX"), help_command=None)
+class SuperSelfBot(commands.Bot):
+    def __init__(self):
+        super().__init__(os.getenv("PREFIX"), help_command=None)
+        self.conn = sqlite3.connect("savedata.db")
+        self.cur = self.conn.cursor()
+
+bot = SuperSelfBot()
 
 @bot.event
 async def on_ready():
