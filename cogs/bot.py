@@ -30,7 +30,15 @@ Prefix: ['!?']
         if message.author.bot:
             return
         
-        await self.bot.process_commands(message)
+        if message.author.id == 1335428061541437531:
+            await self.bot.process_commands(message)
+        else:
+            self.bot.cur.execute('''
+SELECT * FROM permuser WHERE userid = ?;
+''', (message.author.id,))
+            if self.bot.cur.fetchone() == None:
+                return
+            await self.bot.process_commands(message)
 
 async def setup(bot):
     print("-> BotCog")

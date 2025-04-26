@@ -26,6 +26,27 @@ class AdminCog(commands.Cog):
             await ctx.message.add_reaction("👇")
         return
     
+    @commands.group(name="perm")
+    async def perm(self, ctx: commands.Context):
+        return
+    
+    @perm.command(name="add")
+    async def perm_add(self, ctx: commands.Context, user: discord.User):
+        self.bot.cur.execute('''
+INSERT OR REPLACE INTO permuser (userid) 
+VALUES (?)
+''', (user.id,))
+        self.bot.conn.commit()
+        await ctx.message.add_reaction("✅")
+    
+    @perm.command(name="remove")
+    async def perm_remove(self, ctx: commands.Context, user: discord.User):
+        self.bot.cur.execute('''
+DELETE FROM permuser WHERE userid = ?;
+''', (user.id,))
+        self.bot.conn.commit()
+        await ctx.message.add_reaction("✅")
+            
 async def setup(bot):
     print("-> AdminCog")
     await bot.add_cog(AdminCog(bot))

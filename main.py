@@ -11,6 +11,12 @@ class SuperSelfBot(commands.Bot):
         super().__init__(os.getenv("PREFIX"), help_command=None)
         self.conn = sqlite3.connect("savedata.db")
         self.cur = self.conn.cursor()
+        self.cur.execute('''
+        CREATE TABLE IF NOT EXISTS permuser (
+            id INTEGER PRIMARY KEY,
+            userid INTEGER
+        )
+        ''')
 
 bot = SuperSelfBot()
 
