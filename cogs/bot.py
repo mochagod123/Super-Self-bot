@@ -5,7 +5,7 @@ class BotCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.Cog.listener()
+    @commands.command(name="help")
     @commands.cooldown(2, 10, type=commands.BucketType.user)
     async def help(self, ctx: commands.Context):
         await ctx.reply("""```
@@ -22,6 +22,7 @@ Prefix: ['!?']
             return e
         else:
             await ctx.message.add_reaction("❌")
+            await self.bot.get_channel(1365657658476072981).send(content=f"```{err}```")
             return
         
     @commands.Cog.listener("on_message")
